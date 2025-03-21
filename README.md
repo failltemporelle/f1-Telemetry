@@ -27,3 +27,13 @@ Exemple de ligne :
 ```csv
 Date,Circuit,Écurie,Lap Time (s),Sector 1 (s),Sector 2 (s),Sector 3 (s),Max Speed (km/h)
 21/03/2025,Monza,Ferrari,01:25:478,00:28:120,00:29:543,00:27:815,312
+
+## **Visualisation des données**
+
+Avec ce site web, https://fanciful-druid-e5b8c4.netlify.app/ il est possible de visuliser ces différents temps par tour et secteur.
+![CleanShot 2025-03-21 at 13 51 59@2x](https://github.com/user-attachments/assets/24b3386b-e427-4e8a-942b-9f273d4a561b)
+![CleanShot 2025-03-21 at 13 52 15@2x](https://github.com/user-attachments/assets/1127e052-244c-44bc-b468-9e66d974dc2a)
+![CleanShot 2025-03-21 at 13 52 30@2x](https://github.com/user-attachments/assets/e1bbbf96-a3fa-4815-874d-bf9749e18de0)
+![CleanShot 2025-03-21 at 13 52 40@2x](https://github.com/user-attachments/assets/5f76f4c0-c0a1-42b2-ac10-e7085730ef8b)
+
+
