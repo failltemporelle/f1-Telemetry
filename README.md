@@ -19,6 +19,16 @@ Les informations collectées incluent : les temps au tour, les temps par secteur
 
 ---
 
+## Visualisation des données
+
+Avec ce site web, https://fanciful-druid-e5b8c4.netlify.app/ il est possible de visuliser ces différents temps par tour et secteur.
+![Arc 2025-03-21 13 59 48](https://github.com/user-attachments/assets/6ba6931b-4250-4f03-9d3a-4605eaa5bbe4)
+![Arc 2025-03-21 13 59 45](https://github.com/user-attachments/assets/f1e14ac7-edca-43fe-8e2c-f2e279a6bfbd)
+![Arc 2025-03-21 13 59 43](https://github.com/user-attachments/assets/ad15dc67-ae05-444b-8ef5-f3553cead1cc)
+![Arc 2025-03-21 13 59 41](https://github.com/user-attachments/assets/76b83cb9-39b9-42e6-8be0-a2183634868e)
+
+---
+
 ## 📂 Fichier généré
 
 - `f1_telemetry.csv` : contient toutes les données de télémétrie des tours terminés.
@@ -27,11 +37,3 @@ Exemple de ligne :
 ```csv
 Date,Circuit,Écurie,Lap Time (s),Sector 1 (s),Sector 2 (s),Sector 3 (s),Max Speed (km/h)
 21/03/2025,Monza,Ferrari,01:25:478,00:28:120,00:29:543,00:27:815,312
-
-## Visualisation des données
-
-Avec ce site web, https://fanciful-druid-e5b8c4.netlify.app/ il est possible de visuliser ces différents temps par tour et secteur.
-
-![Arc 2025-03-21 13 59 48](https://github.com/user-attachments/assets/292d6370-75a9-4b86-af32-1af8116b876c)
-
-
