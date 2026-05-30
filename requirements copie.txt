@@ -1,0 +1,5 @@
+# F1 Live Telemetry Dashboard — dépendances Python
+# Installation : pip install -r requirements.txt
+# Python >= 3.10 requis
+
+websockets>=13.0        # serveur WebSocket temps réel (dashboard browser)
