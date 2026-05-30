@@ -757,6 +757,102 @@
     #target-input:focus { border-color: var(--blue); }
     #target-input::placeholder { color: var(--t3); font-size: 11px; letter-spacing: 1px; }
 
+    /* ══ MOBILE RESPONSIVE ══════════════════════════ */
+    @media (max-width: 768px) {
+      html, body { overflow-y: auto; overflow-x: hidden; height: auto; }
+
+      .app { height: auto; min-height: 100svh; grid-template-rows: auto auto auto auto auto; }
+
+      /* Header — deux rangées sur mobile */
+      header { flex-wrap: wrap; height: auto; min-height: 48px; }
+      #circuit-name {
+        flex: 1; min-width: 0; padding: 0 10px;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .header-right {
+        width: 100%; order: 3;
+        border-left: none; border-top: 1px solid var(--b1);
+        padding: 5px 10px; gap: 5px;
+        overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      }
+      .header-right::-webkit-scrollbar { display: none; }
+
+      /* Race bar — défilement horizontal */
+      .race-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .race-bar::-webkit-scrollbar { display: none; }
+      .rb-item { flex-shrink: 0; }
+
+      /* Main — empilement vertical */
+      .main { display: flex; flex-direction: column; overflow: visible; }
+
+      /* Panneau gauche — 3 métriques en ligne */
+      .panel-left {
+        display: grid; grid-template-columns: 1fr 1fr 1fr;
+        border-right: none; border-bottom: 1px solid var(--b1);
+      }
+      .panel-left .metric {
+        border-bottom: none; border-right: 1px solid var(--b0);
+        padding: 8px 10px; min-height: 0; flex: none;
+      }
+      .panel-left .metric:last-child { border-right: none; }
+      #val-speed { font-size: 30px; }
+      #val-gear  { font-size: 40px; }
+      #val-rpm   { font-size: 18px; }
+
+      /* Carte circuit */
+      .map-area { height: 220px; flex-shrink: 0; }
+
+      /* Panneau droit */
+      .panel-right { border-left: none; border-top: 1px solid var(--b1); }
+      .panel-right .metric { flex: none; padding: 8px 14px; }
+      #val-lap      { font-size: 30px; }
+      #val-maxspeed { font-size: 18px; }
+
+      /* Poignées de redimensionnement — masquées sur tactile */
+      .resize-h, .resize-v { display: none; }
+
+      /* Pédales */
+      .pedals { height: auto; }
+      .pedal-card { padding: 8px 10px; gap: 5px; }
+      .pedal-pct  { font-size: 16px; }
+
+      /* Graphiques — empilés */
+      .chart-area { grid-template-columns: 1fr; height: auto; }
+      .chart-card { height: 130px; }
+      .chart-canvas-wrap { height: 90px; }
+
+      /* Panneau pneus — plein écran vertical */
+      #tyre-panel { grid-template-columns: 1fr; height: auto; max-height: 80vh; overflow-y: auto; }
+      .tp-section { border-right: none; }
+      .tp-section:first-child { border-bottom: 1px solid var(--b1); }
+
+      /* Panneau layout */
+      #layout-panel { right: 0; left: 0; top: auto; bottom: 0; min-width: unset; }
+
+      /* Historique — pleine largeur */
+      .history-panel { width: 100%; }
+
+      /* Bannière PB */
+      #pb-banner { top: 90px; }
+
+      /* Overlay connexion */
+      .connect-box { min-width: unset; width: calc(100vw - 40px); padding: 24px 20px; }
+
+      /* Panneau analyse */
+      .analyse-cards { grid-template-columns: repeat(2, 1fr) !important; }
+      .analyse-body  { padding: 14px; gap: 14px; }
+      #target-input  { width: 120px; font-size: 15px; }
+    }
+
+    @media (max-width: 480px) {
+      .brand-name    { font-size: 8px; letter-spacing: 2px; }
+      #val-speed     { font-size: 24px; }
+      #val-gear      { font-size: 32px; }
+      #val-rpm       { font-size: 16px; }
+      #val-lap       { font-size: 24px; }
+      .analyse-cards { grid-template-columns: 1fr !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -1926,6 +2022,23 @@ let raceModeActive = true;
 function updateLayout() {
   const app = document.querySelector('.app');
   const main = document.querySelector('.main');
+
+  if (window.innerWidth < 768) {
+    // Sur mobile, le CSS media query gère le layout — on efface les styles inline du JS
+    app.style.gridTemplateRows = '';
+    main.style.gridTemplateColumns = '';
+    // Visibilité des panneaux via display plutôt que taille de grille
+    document.querySelector('.panel-left').style.display  = panelVisible.left   ? '' : 'none';
+    document.querySelector('.panel-right').style.display = panelVisible.right  ? '' : 'none';
+    document.querySelector('.pedals').style.display      = panelVisible.pedals ? '' : 'none';
+    document.querySelector('.chart-area').style.display  = panelVisible.chart  ? '' : 'none';
+    document.querySelector('.race-bar').style.display    = raceModeActive      ? '' : 'none';
+    setTimeout(() => map._resize(), 50);
+    speedChart.resize();
+    pedalsChart.resize();
+    return;
+  }
+
   const lw = panelVisible.left   ? panelSizes.leftWidth    + 'px' : '0';
   const rw = panelVisible.right  ? panelSizes.rightWidth   + 'px' : '0';
   const ph = panelVisible.pedals ? panelSizes.pedalsHeight + 'px' : '0';
@@ -1995,6 +2108,8 @@ document.addEventListener('mouseup', () => {
   }
 });
 
+window.addEventListener('resize', updateLayout);
+
 // ═══════════════════════════════════════════════
 //  LAP HISTORY
 // ═══════════════════════════════════════════════
@@ -2009,10 +2124,10 @@ function toggleHistory() {
 //  INIT — sync UI state on page load
 // ═══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  // Sync race bar button + layout
   $('race-btn').classList.toggle('active', raceModeActive);
   updateLayout();
-  // Sync tyre panel
+  // Sur mobile, panneau pneus fermé par défaut pour ne pas masquer le contenu
+  if (window.innerWidth < 768) tyrePanelOpen = false;
   $('tyre-panel').classList.toggle('open', tyrePanelOpen);
   $('tyre-btn').classList.toggle('active', tyrePanelOpen);
 });
